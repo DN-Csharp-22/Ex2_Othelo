@@ -22,7 +22,7 @@ namespace Ex02_Othelo
             while (!inputIsValid)
             {
                 {
-                    Console.WriteLine("Choose a difficulty");
+                    Console.WriteLine("Choose a difficulty!");
 
                     string difficultyInput = GetUserInput();
 
