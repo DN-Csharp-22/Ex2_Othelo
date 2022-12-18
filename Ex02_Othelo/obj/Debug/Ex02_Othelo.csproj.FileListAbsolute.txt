@@ -1,0 +1,10 @@
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\bin\Debug\Ex02_Othelo.exe.config
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\bin\Debug\Ex02_Othelo.exe
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\bin\Debug\Ex02_Othelo.pdb
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\bin\Debug\Ex02.ConsoleUtils.dll
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.AssemblyReference.cache
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.SuggestedBindingRedirects.cache
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CoreCompileInputs.cache
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.csproj.CopyComplete
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.exe
+C:\dev\C# OOP HIT\Exercise 2\A23 Ex02 Michael 316871961 Yuval 318620721\Ex02_Othelo\obj\Debug\Ex02_Othelo.pdb
