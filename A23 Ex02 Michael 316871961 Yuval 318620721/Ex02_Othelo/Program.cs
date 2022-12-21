@@ -10,9 +10,15 @@ namespace Ex02_Othelo
     {
         static void Main(string[] args)
         {
-            while (OtheloGame.RunGame)
+            StartOtheloGame();
+        }
+
+        private static void StartOtheloGame()
+        {
+            while (true)
             {
-                OtheloGame.StartGame();
+                OtheloGame game = new OtheloGame();
+                game.StartGame();
             }
         }
     }

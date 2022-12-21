@@ -8,16 +8,16 @@ namespace Ex02_Othelo
 {
     internal class OtheloGame
     {
-        public static bool RunGame { get; set; }
-        static OtheloGame()
+        private readonly int[] difficulties = { 6, 8 };
+        public OtheloGame()
         {
-            RunGame = true;
         }
-        public static void StartGame()
+
+        public void StartGame()
         {
             GameUI gameUI = new GameUI();
-            
-            int gameDifficulty = gameUI.InitializeGame();
+
+            int gameDifficulty = gameUI.GetDifficultyFromUser(difficulties);
 
             GameState gameState = new GameState(gameDifficulty);
         }

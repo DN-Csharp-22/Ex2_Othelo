@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameLogic.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="GameUI.cs" />
     <Compile Include="OtheloGame.cs" />
     <Compile Include="Program.cs" />

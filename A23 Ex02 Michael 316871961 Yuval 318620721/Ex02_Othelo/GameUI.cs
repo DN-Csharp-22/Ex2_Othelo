@@ -13,7 +13,7 @@ namespace Ex02_Othelo
             Ex02.ConsoleUtils.Screen.Clear();
         }
 
-        public int InitializeGame()
+        public int GetDifficultyFromUser(int[] availableDifficulties)
         {
             bool inputIsValid = false;
 
@@ -21,25 +21,26 @@ namespace Ex02_Othelo
 
             while (!inputIsValid)
             {
+                Console.WriteLine(string.Format("Choose a difficulty : {0}", string.Join(" or ",availableDifficulties)));
+
+                string difficultyInput = GetUserInput();
+
+                if (int.TryParse(difficultyInput, out int difficulty))
                 {
-                    Console.WriteLine("Choose a difficulty!");
-
-                    string difficultyInput = GetUserInput();
-
-                    if (int.TryParse(difficultyInput, out int difficulty))
+                    for (int i = 0; i < availableDifficulties.Length; i++)
                     {
-                        if (gameDifficulty == 8 || gameDifficulty == 6)
+                        if (difficulty == availableDifficulties[i])
                         {
                             inputIsValid = true;
 
                             gameDifficulty = difficulty;
                         }
                     }
+                }
 
-                    if (!inputIsValid)
-                    {
-                        Console.WriteLine("Invalid input - please enter a valid integer");
-                    }
+                if (!inputIsValid)
+                {
+                    Console.WriteLine("Invalid input - please chose one of the given options");
                 }
             }
 
