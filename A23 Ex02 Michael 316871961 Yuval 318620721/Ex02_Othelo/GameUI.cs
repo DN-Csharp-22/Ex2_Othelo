@@ -34,6 +34,8 @@ namespace Ex02_Othelo
                             inputIsValid = true;
 
                             gameDifficulty = difficulty;
+                            
+                            break;
                         }
                     }
                 }
@@ -41,6 +43,7 @@ namespace Ex02_Othelo
                 if (!inputIsValid)
                 {
                     Console.WriteLine("Invalid input - please chose one of the given options");
+                    Console.WriteLine();
                 }
             }
 

@@ -9,9 +9,7 @@ namespace Ex02_Othelo
     internal class OtheloGame
     {
         private readonly int[] difficulties = { 6, 8 };
-        public OtheloGame()
-        {
-        }
+        public OtheloGame() { }
 
         public void StartGame()
         {
