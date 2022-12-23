@@ -33,6 +33,8 @@ namespace Ex02_Othelo
 
         public bool IsMoveValid(OtheloMove currentMove, int[][] gameBoard)
         {
+            
+
             return true;
         }
 
