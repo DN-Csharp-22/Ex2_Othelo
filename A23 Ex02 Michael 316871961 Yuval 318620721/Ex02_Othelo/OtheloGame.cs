@@ -18,6 +18,18 @@ namespace Ex02_Othelo
             int gameDifficulty = gameUI.GetDifficultyFromUser(difficulties);
 
             GameState gameState = new GameState(gameDifficulty);
+
+            gameUI.DisplayBoard(gameState.Board);
+
+            
+
+            Console.ReadKey();
+        }
+
+
+        public bool IsMoveValid(string move)
+        {
+            return true;
         }
     }
 }

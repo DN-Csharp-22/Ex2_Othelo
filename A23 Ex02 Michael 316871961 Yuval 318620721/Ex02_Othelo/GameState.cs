@@ -9,7 +9,8 @@ namespace Ex02_Othelo
     internal class GameState
     {
         private int Score { get; set; }
-        private int[][] Board { get; set; }
+        public int[][] Board { get; set; }
+
         public GameState(int rowLength)
         {
             this.Score = 0;
@@ -19,6 +20,11 @@ namespace Ex02_Othelo
             {
                 this.Board[rowNumber] = new int[rowLength];
             }
-        }
+            int middleCell = (rowLength / 2)-1;
+            this.Board[middleCell][middleCell] = -1;
+            this.Board[middleCell][middleCell + 1] = 1;
+            this.Board[middleCell + 1][middleCell] = 1;
+            this.Board[middleCell + 1][middleCell + 1] = -1;
+                    }
     }
 }
