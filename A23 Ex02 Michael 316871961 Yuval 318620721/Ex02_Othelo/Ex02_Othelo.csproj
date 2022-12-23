@@ -49,6 +49,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="GameUI.cs" />
     <Compile Include="OtheloGame.cs" />
+    <Compile Include="OtheloMove.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

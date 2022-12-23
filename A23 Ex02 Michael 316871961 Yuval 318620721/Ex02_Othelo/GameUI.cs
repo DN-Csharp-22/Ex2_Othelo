@@ -45,12 +45,12 @@ namespace Ex02_Othelo
                         char currentCellSymbol = ' ';
 
                         //TODO do a switch case to 
-                        if(boardMatrix[row][col - 1] != 0)
+                        if (boardMatrix[row][col - 1] != 0)
                         {
                             switch (boardMatrix[row][col - 1])
                             {
                                 case 1:
-                                    currentCellSymbol = 'X' ;
+                                    currentCellSymbol = 'X';
                                     break;
                                 case -1:
                                     currentCellSymbol = 'O';
@@ -119,6 +119,43 @@ namespace Ex02_Othelo
             return gameDifficulty;
         }
 
+        public OtheloMove GetMoveFromUser(int difficulty)
+        {
+            Console.WriteLine("Please insert your move");
+
+            bool inputIsValid = false;
+
+            string userInput = GetUserInput().ToLower();
+
+            OtheloMove userMove = null;
+
+            while (!inputIsValid)
+            {
+                if (userInput.Length == 2)
+                {
+                    char firstChar = userInput[0];
+                    char secondChar = userInput[1];
+
+                    if (firstChar >= '1' && firstChar <= ('1' + difficulty) && secondChar >= 'a' && secondChar <= ('a' + difficulty))
+                    {
+                        inputIsValid = true;
+                        userMove = new OtheloMove(firstChar - 'a', secondChar - '1');
+                    }
+                    else if (secondChar >= '1' && secondChar <= ('1' + difficulty) && firstChar >= 'a' && firstChar <= ('a' + difficulty))
+                    {
+                        userMove = new OtheloMove(secondChar - 'a', firstChar - '1');
+                        inputIsValid = true;
+                    }
+                }
+
+                if (!inputIsValid)
+                {
+                    Console.WriteLine("Invalid input, enter row and column number correctly");
+                }
+            }
+
+            return userMove;
+        }
         public string GetUserInput()
         {
             string userInput = Console.ReadLine();
