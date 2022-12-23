@@ -19,37 +19,30 @@ namespace Ex02_Othelo
 
             GameState gameState = new GameState(gameDifficulty);
 
-            gameUI.DisplayBoard(gameState.Board);
-
-            OtheloMove move = gameUI.GetMoveFromUser(gameState.Difficulty);
-
-            while(!IsMoveValid(move,gameState.Board))
+            while(true)
             {
+                gameUI.DisplayBoard(gameState.Board);
 
+                OtheloMove move = gameUI.GetMoveFromUser(gameState.Difficulty);
+
+                bool isMoveValid = gameState.IsMoveValid(move);
+
+                if (!isMoveValid)
+                {
+                    Ex02.ConsoleUtils.Screen.Clear();
+                    gameUI.DisplayInvalidMoveMessage();
+                }
+                else
+                {
+                    gameState.InsertMoveToBoard(move);
+
+                    if (gameState.IsGameFinished())
+                    {
+                        gameUI.DisplayWinnerMessage();
+                        break;
+                    }
+                }
             }
-
-            Console.ReadKey();
-        }
-
-        public bool IsMoveValid(OtheloMove currentMove, int[][] gameBoard)
-        {
-            
-
-            return true;
-        }
-
-
-        public void InsertMoveToBoard(int row, int col, int currentPlayer)
-        {
-            char playerSymbol = currentPlayer == 1 ? 'X' : 'O';
-        }
-
-        /// <summary>
-        /// This method can be altered with AI logic
-        /// </summary>
-        public void InsertMoveByComputer()
-        {
-            //random
         }
     }
 }

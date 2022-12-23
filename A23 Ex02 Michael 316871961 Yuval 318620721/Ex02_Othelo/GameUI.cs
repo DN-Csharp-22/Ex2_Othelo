@@ -156,6 +156,17 @@ namespace Ex02_Othelo
 
             return userMove;
         }
+
+        public void DisplayInvalidMoveMessage()
+        {
+            Console.WriteLine("Move is invalid, please insert another move according to Othelo rules");
+        }
+
+        public void DisplayWinnerMessage()
+        {
+            Console.WriteLine("You are the winner!!!");
+            Console.ReadKey();
+        }
         public string GetUserInput()
         {
             string userInput = Console.ReadLine();
