@@ -119,31 +119,32 @@ namespace Ex02_Othelo
             return gameDifficulty;
         }
 
-        public OtheloMove GetMoveFromUser(int difficulty)
+        public OtheloMove GetMoveFromUser(GameState gameState)
         {
+            Console.WriteLine("Current player is : {0}",gameState.GetCurrentPlayer());
             Console.WriteLine("Please insert your move");
 
             bool inputIsValid = false;
-
-            string userInput = GetUserInput().ToLower();
-
+            
             OtheloMove userMove = null;
 
             while (!inputIsValid)
             {
+                string userInput = GetUserInput().ToLower();
+
                 if (userInput.Length == 2)
                 {
                     char firstChar = userInput[0];
                     char secondChar = userInput[1];
 
-                    if (firstChar >= '1' && firstChar <= ('1' + difficulty) && secondChar >= 'a' && secondChar <= ('a' + difficulty))
+                    if (firstChar >= '1' && firstChar <= ('1' + gameState.Difficulty) && secondChar >= 'a' && secondChar <= ('a' + gameState.Difficulty))
                     {
+                        userMove = new OtheloMove(firstChar - '1',secondChar - 'a');
                         inputIsValid = true;
-                        userMove = new OtheloMove(firstChar - 'a', secondChar - '1');
                     }
-                    else if (secondChar >= '1' && secondChar <= ('1' + difficulty) && firstChar >= 'a' && firstChar <= ('a' + difficulty))
+                    else if (secondChar >= '1' && secondChar <= ('1' + gameState.Difficulty) && firstChar >= 'a' && firstChar <= ('a' + gameState.Difficulty))
                     {
-                        userMove = new OtheloMove(secondChar - 'a', firstChar - '1');
+                        userMove = new OtheloMove(secondChar - '1',firstChar - 'a');
                         inputIsValid = true;
                     }
                 }
@@ -162,9 +163,9 @@ namespace Ex02_Othelo
             Console.WriteLine("Move is invalid, please insert another move according to Othelo rules");
         }
 
-        public void DisplayWinnerMessage()
+        public void DisplayWinnerMessage(string winner)
         {
-            Console.WriteLine("You are the winner!!!");
+            Console.WriteLine("{0} is the winner!!!", winner);
             Console.ReadKey();
         }
         public string GetUserInput()
