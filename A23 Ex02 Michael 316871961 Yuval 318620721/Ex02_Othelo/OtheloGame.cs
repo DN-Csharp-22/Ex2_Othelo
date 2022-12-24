@@ -29,7 +29,7 @@ namespace Ex02_Othelo
                 {
                     gameState.InsertMoveToBoard(move);
 
-                    if (!gameState.IsGameFinished(out string winner))
+                    if (gameState.IsGameFinished(out char winner))
                     {
                         gameUI.DisplayWinnerMessage(winner);
                         break;
@@ -37,9 +37,9 @@ namespace Ex02_Othelo
                 }
                 else
                 {
-                    Ex02.ConsoleUtils.Screen.Clear();
                     gameUI.DisplayInvalidMoveMessage();
                 }
+                Ex02.ConsoleUtils.Screen.Clear();
             }
         }
     }

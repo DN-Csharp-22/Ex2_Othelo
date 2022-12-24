@@ -121,7 +121,7 @@ namespace Ex02_Othelo
 
         public OtheloMove GetMoveFromUser(GameState gameState)
         {
-            Console.WriteLine("Current player is : {0}",gameState.GetCurrentPlayer());
+            Console.WriteLine("Current player is : {0}",gameState.GetCurrentPlayerSymbol());
             Console.WriteLine("Please insert your move");
 
             bool inputIsValid = false;
@@ -163,7 +163,7 @@ namespace Ex02_Othelo
             Console.WriteLine("Move is invalid, please insert another move according to Othelo rules");
         }
 
-        public void DisplayWinnerMessage(string winner)
+        public void DisplayWinnerMessage(char winner)
         {
             Console.WriteLine("{0} is the winner!!!", winner);
             Console.ReadKey();

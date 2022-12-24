@@ -13,8 +13,13 @@ namespace Ex02_Othelo
     {
         public int Difficulty { get; set; }
         public int[][] Board { get; set; }
-
         private int currentPlayer { get; set; }
+
+        private const int PlayerX = 1;
+        private const int PlayerO = -1;
+        private const int EmptyCell = 0;
+        private const char PlayerXSymbol = 'X';
+        private const char PlayerOSymbol = 'O';
 
         public GameState(int rowLength)
         {
@@ -35,18 +40,18 @@ namespace Ex02_Othelo
             this.Board[middleCell + 1][middleCell + 1] = -1;
         }
 
-        public char GetCurrentPlayer()
+        public char GetCurrentPlayerSymbol()
         {
-            return this.currentPlayer == 1 ? 'X' : 'O';
+            return this.currentPlayer == 1 ? PlayerXSymbol : PlayerOSymbol;
         }
 
         public void InsertMoveToBoard(OtheloMove move)
         {
-            char currentPlayerSymbol = this.currentPlayer == 1 ? 'X' : 'O';
+            char currentPlayerSymbol = GetCurrentPlayerSymbol();
 
             //TODO do here the insert of the move into the board
 
-           currentPlayer = currentPlayer == 1 ? -1 : 1;
+            currentPlayer = currentPlayer == 1 ? -1 : 1;
             //if (IsMoveValid(move))
 
             int column_indexHolder = find_offsetPosition_row_colunm(move.row, move.col, this.Board, currentPlayerSymbol, false);
@@ -58,7 +63,7 @@ namespace Ex02_Othelo
             //======> רצה על עמודה מלמעלה למטה
             if (column_indexHolder != -1) //רצה על טווח עמודות (בתכלס משבץ שורה)  
             {
-                for (int j = column_indexHolder + 1 ; j <= move.col; j++) // אופציה 1 
+                for (int j = column_indexHolder + 1; j <= move.col; j++) // אופציה 1 
                 {
                     Board[move.row][j] = currentPlayer;
                 }
@@ -72,30 +77,30 @@ namespace Ex02_Othelo
 
             if (row_indexHolder != -1) // רצה על טווח שורות בתכלס משבצת עמודות 
             {
-                for (int i = row_indexHolder+1; i<= move.row; i++)
+                for (int i = row_indexHolder + 1; i <= move.row; i++)
                 {
                     Board[i][move.col] = currentPlayer;
                 }
 
-                for (int i = move.row; i<row_indexHolder; i++)
+                for (int i = move.row; i < row_indexHolder; i++)
                 {
                     Board[i][move.col] = currentPlayer;
                 }
 
             }
 
-            if (main_dianagonalIndexHolder !=-1)
+            if (main_dianagonalIndexHolder != -1)
             {
                 int index = 0;
-                for (int j = move.col;  j<main_dianagonalIndexHolder; j++)
+                for (int j = move.col; j < main_dianagonalIndexHolder; j++)
                 {
-                    Board[move.row+ index][move.col+index] = currentPlayer;
+                    Board[move.row + index][move.col + index] = currentPlayer;
                     index++;
                 }
 
-                for (int j = main_dianagonalIndexHolder +1; j<=move.col; j++)
+                for (int j = main_dianagonalIndexHolder + 1; j <= move.col; j++)
                 {
-                    Board[move.row-index][move.col-index] = currentPlayer;
+                    Board[move.row - index][move.col - index] = currentPlayer;
                     index++;
 
                 }
@@ -103,45 +108,45 @@ namespace Ex02_Othelo
                 if (sub_dianagonalIndexHolder != -1)
                 {
                     index = 0;
-                    for (int j = sub_dianagonalIndexHolder+1; j<=move.col; j++)
+                    for (int j = sub_dianagonalIndexHolder + 1; j <= move.col; j++)
                     {
-                        Board[move.row-index][move.col+index] = currentPlayer;
+                        Board[move.row - index][move.col + index] = currentPlayer;
                         index++;
 
                     }
                     index = 0;
-                    for (int j = move.col; j <sub_dianagonalIndexHolder; j++)
+                    for (int j = move.col; j < sub_dianagonalIndexHolder; j++)
                     {
                         Board[move.row - index][move.col + index] = currentPlayer;
                         index++;
                     }
                 }
             }
-            
+
 
         }
 
-        public bool IsGameFinished(out string winner)
+        public bool IsGameFinished(out char winner)
         {
             bool isGameFinished = true;
 
-            winner = "";
-
             int[] playersSymbolsCount = new int[2];
 
-            for (int row = 0; row < Difficulty; row++)
+            winner = ' ';
+
+            for (int row = 0; row < Difficulty && isGameFinished; row++)
             {
-                for (int col = 0; col < Difficulty; col++)
+                for (int col = 0; col < Difficulty && isGameFinished; col++)
                 {
                     switch (Board[row][col])
                     {
-                        case 0:
+                        case EmptyCell:
                             isGameFinished = false;
                             break;
-                        case 1:
+                        case PlayerX:
                             playersSymbolsCount[0]++;
                             break;
-                        case -1:
+                        case PlayerO:
                             playersSymbolsCount[1]++;
                             break;
                         default:
@@ -150,7 +155,10 @@ namespace Ex02_Othelo
                 }
             }
 
-            winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? "X" : "O";
+            if (isGameFinished)
+            {
+                winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? PlayerXSymbol : PlayerOSymbol;
+            }
 
             return isGameFinished;
         }
@@ -281,7 +289,7 @@ namespace Ex02_Othelo
             return isMoveValid;
         }
 
-        public static int find_offsetPosition_row_colunm( int row, int col, int[][] Board, int currentPlayer, bool isMainDiagonalCheck)
+        public static int find_offsetPosition_row_colunm(int row, int col, int[][] Board, int currentPlayer, bool isMainDiagonalCheck)
         {
             int lastShow_index = -1;
 
@@ -299,8 +307,8 @@ namespace Ex02_Othelo
                     lastShow_index = currentCol;
                 }
 
-               
-                else if (Board[row][currentCol] != currentPlayer && Board[row][currentCol]!= (-1)*currentPlayer ) // we find empty cell
+
+                else if (Board[row][currentCol] != currentPlayer && Board[row][currentCol] != (-1) * currentPlayer) // we find empty cell
                 {
                     break;
                 }
@@ -309,7 +317,7 @@ namespace Ex02_Othelo
 
             if (lastShow_index == -1)
             {
-                for ( int currentCol = col + 1; currentCol < Board.Length; currentCol++)
+                for (int currentCol = col + 1; currentCol < Board.Length; currentCol++)
                 {
                     if (Board[row][currentCol] == currentCol) // find index of last show
                     {
@@ -333,14 +341,13 @@ namespace Ex02_Othelo
             int lastShow_index = -1;
             int index = 1;
 
-            for (int currentCol = col ; currentCol >= 0; currentCol-- ) // main diagonal
+            for (int currentCol = col; currentCol >= 0; currentCol--) // main diagonal
             {
-                if (Board[row-index][col-index] == currentPlayer)
+                if (Board[row - index][col - index] == currentPlayer)
                 {
                     lastShow_index = col - index;
                 }
-
-                else if (Board[row-index][col-index] != currentPlayer && Board[row-index][col-index] != (-1) * currentPlayer) // we find empty cell
+                else if (Board[row - index][col - index] != currentPlayer && Board[row - index][col - index] != (-1) * currentPlayer) // we find empty cell
                 {
                     break;
                 }
@@ -351,14 +358,13 @@ namespace Ex02_Othelo
             if (lastShow_index == -1)
             {
                 index = 1;
-                for (int currentCol = col ; currentCol <  Board.Length ; currentCol++) // main diagonal
+                for (int currentCol = col; currentCol < Board.Length; currentCol++) // main diagonal
                 {
-                    if (Board[row +index][col+index] == currentPlayer)
+                    if (Board[row + index][col + index] == currentPlayer)
                     {
                         lastShow_index = col + index;
                     }
-
-                    else if (Board[row+index+1][col+index ] != currentPlayer && Board[row+index][col+index] != (-1) * currentPlayer) // we find empty cell
+                    else if (Board[row + index + 1][col + index] != currentPlayer && Board[row + index][col + index] != (-1) * currentPlayer) // we find empty cell
                     {
                         break;
                     }
@@ -369,19 +375,18 @@ namespace Ex02_Othelo
             return lastShow_index;
         }
 
-        public static int find_offsetPosition_sub_diagonal (int row, int col, int[][] Board, int currentPlayer)
+        public static int find_offsetPosition_sub_diagonal(int row, int col, int[][] Board, int currentPlayer)
         {
             int lastShow_index = -1;
             int index = 1;
 
             for (int currentCol = col; col >= 0; currentCol--)
             {
-                if (Board[row - index][col+index] == currentPlayer)
+                if (Board[row - index][col + index] == currentPlayer)
                 {
                     lastShow_index = col + index;
                 }
-
-                else if (Board[row - index][col + index] != currentPlayer && Board[row - index][col + index] != (-1)*currentPlayer)
+                else if (Board[row - index][col + index] != currentPlayer && Board[row - index][col + index] != (-1) * currentPlayer)
                 {
                     break;
                 }
@@ -391,14 +396,13 @@ namespace Ex02_Othelo
 
             if (lastShow_index == -1)
             {
-                for (int currentCol = col; col <Board.Length; currentCol++)
+                for (int currentCol = col; col < Board.Length; currentCol++)
                 {
                     if (Board[row + index][col - index] == currentPlayer)
                     {
                         lastShow_index = col - index;
                     }
-
-                    else if (Board[row + index][col - index] != currentPlayer && Board[row + index][col - index] != (-1)*currentPlayer)
+                    else if (Board[row + index][col - index] != currentPlayer && Board[row + index][col - index] != (-1) * currentPlayer)
                     {
                         break;
                     }
