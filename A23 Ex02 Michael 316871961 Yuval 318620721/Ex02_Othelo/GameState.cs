@@ -105,7 +105,7 @@ namespace Ex02_Othelo
 
                 }
 
-                if (sub_dianagonalIndexHolder != -1)
+                if (sub_dianagonalIndexHolder !=-1)
                 {
                     index = 0;
                     for (int j = sub_dianagonalIndexHolder + 1; j <= move.col; j++)
@@ -117,7 +117,7 @@ namespace Ex02_Othelo
                     index = 0;
                     for (int j = move.col; j < sub_dianagonalIndexHolder; j++)
                     {
-                        Board[move.row - index][move.col + index] = currentPlayer;
+                        Board[move.row - index][move.col + index]= currentPlayer;
                         index++;
                     }
                 }
@@ -352,7 +352,9 @@ namespace Ex02_Othelo
                     break;
                 }
 
-                index++;
+                    index++;
+                
+                
             }
 
             if (lastShow_index == -1)
