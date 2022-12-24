@@ -35,6 +35,10 @@ namespace Ex02_Othelo
             this.Board[middleCell + 1][middleCell + 1] = -1;
         }
 
+        public char GetCurrentPlayer()
+        {
+            return this.currentPlayer == 1 ? 'X' : 'O';
+        }
 
         public void InsertMoveToBoard(OtheloMove move)
         {
@@ -45,9 +49,38 @@ namespace Ex02_Othelo
             currentPlayer = currentPlayer == 1 ? -1 : 1;
         }
 
-        public bool IsGameFinished()
+        public bool IsGameFinished(out string winner)
         {
-            return false;
+            bool isGameFinished = true;
+
+            winner = "";
+
+            int[] playersSymbolsCount = new int[2];
+
+            for (int row = 0; row < Difficulty; row++)
+            {
+                for (int col = 0; col < Difficulty; col++)
+                {
+                    switch (Board[row][col])
+                    {
+                        case 0:
+                            isGameFinished = false;
+                            break;
+                        case 1:
+                            playersSymbolsCount[0]++;
+                            break;
+                        case -1:
+                            playersSymbolsCount[1]++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? "X" : "O";
+
+            return isGameFinished;
         }
 
         public bool IsMoveValid(OtheloMove currentMove)
@@ -78,9 +111,9 @@ namespace Ex02_Othelo
             //random
         }
 
-        public static bool isValidRowOrColumnMove(int row, int col, int[][] Board, int currentPlayer, bool isRowCheck)
+        public static bool isValidRowOrColumnMove(int row, int col, int[][] Board, int currentPlayer, bool isColCheck)
         {
-            if (isRowCheck)
+            if (isColCheck)
             {
                 int tempNumberForSwitch = row;
                 row = col;

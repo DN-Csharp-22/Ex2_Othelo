@@ -18,29 +18,27 @@ namespace Ex02_Othelo
             int gameDifficulty = gameUI.GetDifficultyFromUser(difficulties);
 
             GameState gameState = new GameState(gameDifficulty);
-
+             
             while(true)
             {
                 gameUI.DisplayBoard(gameState.Board);
 
-                OtheloMove move = gameUI.GetMoveFromUser(gameState.Difficulty);
+                OtheloMove move = gameUI.GetMoveFromUser(gameState);
 
-                bool isMoveValid = gameState.IsMoveValid(move);
-
-                if (!isMoveValid)
-                {
-                    Ex02.ConsoleUtils.Screen.Clear();
-                    gameUI.DisplayInvalidMoveMessage();
-                }
-                else
+                if (gameState.IsMoveValid(move))
                 {
                     gameState.InsertMoveToBoard(move);
 
-                    if (gameState.IsGameFinished())
+                    if (!gameState.IsGameFinished(out string winner))
                     {
-                        gameUI.DisplayWinnerMessage();
+                        gameUI.DisplayWinnerMessage(winner);
                         break;
                     }
+                }
+                else
+                {
+                    Ex02.ConsoleUtils.Screen.Clear();
+                    gameUI.DisplayInvalidMoveMessage();
                 }
             }
         }
