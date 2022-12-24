@@ -334,18 +334,18 @@ namespace Ex02_Othelo
             return lastShow_index;
         }
 
-        public static int find_offsetPosition_main_diagonal(int row, int col, int[][] Board, int currentPlayer)
+        public int find_offsetPosition_main_diagonal(OtheloMove move)
         {
             int lastShow_index = -1;
             int index = 1;
 
-            for (int currentCol = col; currentCol >= 0; currentCol--) // main diagonal
+            for (int currentCol = move.col; currentCol >= 0; currentCol--) // main diagonal
             {
-                if (Board[row - index][col - index] == currentPlayer)
+                if (Board[move.row - index][move.col - index] == currentPlayer)
                 {
-                    lastShow_index = col - index;
+                    lastShow_index = move.col - index;
                 }
-                else if (Board[row - index][col - index] != currentPlayer && Board[row - index][col - index] != (-1) * currentPlayer) // we find empty cell
+                else if (Board[move.row - index][move.col - index] != currentPlayer && Board[move.row - index][move.col - index] != (-1) * currentPlayer) // we find empty cell
                 {
                     break;
                 }
@@ -358,13 +358,13 @@ namespace Ex02_Othelo
             if (lastShow_index == -1)
             {
                 index = 1;
-                for (int currentCol = col; currentCol < Board.Length; currentCol++) // main diagonal
+                for (int currentCol = move.col; currentCol < Board.Length; currentCol++) // main diagonal
                 {
-                    if (Board[row + index][col + index] == currentPlayer)
+                    if (Board[move.row + index][move.col + index] == currentPlayer)
                     {
-                        lastShow_index = col + index;
+                        lastShow_index = move.col + index;
                     }
-                    else if (Board[row + index + 1][col + index] != currentPlayer && Board[row + index][col + index] != (-1) * currentPlayer) // we find empty cell
+                    else if (Board[move.row + index + 1][move.col + index] != currentPlayer && Board[move.row + index][move.col + index] != (-1) * currentPlayer) // we find empty cell
                     {
                         break;
                     }
