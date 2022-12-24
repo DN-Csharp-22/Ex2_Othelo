@@ -43,7 +43,6 @@ namespace Ex02_Othelo
             //TODO do here the insert of the move into the board
 
            currentPlayer = currentPlayer == 1 ? -1 : 1;
-            //if (IsMoveValid(move))
 
             int column_indexHolder = find_offsetPosition_row_colunm(move.row, move.col, this.Board, currentPlayerSymbol, false);
             int row_indexHolder = find_offsetPosition_row_colunm(move.row, move.col, this.Board, currentPlayerSymbol, true);
@@ -96,7 +95,7 @@ namespace Ex02_Othelo
 
                 }
 
-                if (sub_dianagonalIndexHolder != -1)
+                if (sub_dianagonalIndexHolder !=-1)
                 {
                     index = 0;
                     for (int j = sub_dianagonalIndexHolder+1; j<=move.col; j++)
