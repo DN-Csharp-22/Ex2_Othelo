@@ -54,10 +54,10 @@ namespace Ex02_Othelo
             currentPlayer = currentPlayer == 1 ? -1 : 1;
             //if (IsMoveValid(move))
 
-            int column_indexHolder = find_offsetPosition_row_colunm(move.row, move.col, this.Board, currentPlayerSymbol, false);
-            int row_indexHolder = find_offsetPosition_row_colunm(move.row, move.col, this.Board, currentPlayerSymbol, true);
+            int column_indexHolder = findOffsetPositionRowColunm(move.row, move.col, this.Board, currentPlayerSymbol, false);
+            int row_indexHolder = findOffsetPositionRowColunm(move.row, move.col, this.Board, currentPlayerSymbol, true);
             int main_dianagonalIndexHolder = find_offsetPosition_main_diagonal(move.row, move.col, this.Board, currentPlayerSymbol);
-            int sub_dianagonalIndexHolder = find_offsetPosition_sub_diagonal(move.row, move.col, this.Board, currentPlayerSymbol);
+            int sub_dianagonalIndexHolder = findOffsetPositionSubDiagonal(move.row, move.col, this.Board, currentPlayerSymbol);
 
 
             //======> רצה על עמודה מלמעלה למטה
@@ -289,18 +289,18 @@ namespace Ex02_Othelo
             return isMoveValid;
         }
 
-        public static int find_offsetPosition_row_colunm(int row, int col, int[][] Board, int currentPlayer, bool isMainDiagonalCheck)
+        public int findOffsetPositionRowColunm(OtheloMove move, bool isMainDiagonalCheck)
         {
             int lastShow_index = -1;
 
             if (isMainDiagonalCheck)
             {
-                int tempNumberForSwitch = row;
-                row = col;
-                col = tempNumberForSwitch;
+                int tempNumberForSwitch = move.row;
+                move.row = move.col;
+                move.col = tempNumberForSwitch;
             }
 
-            for (int currentCol = col - 1; currentCol >= 0; currentCol--)//Check to the left
+            for (int currentCol = move.col - 1; currentCol >= 0; currentCol--)//Check to the left
             {
                 if (Board[row][currentCol] == currentCol) // find index of last show
                 {
@@ -314,24 +314,22 @@ namespace Ex02_Othelo
                 }
             }
 
-
             if (lastShow_index == -1)
             {
-                for (int currentCol = col + 1; currentCol < Board.Length; currentCol++)
+                for (int currentCol = move.col + 1; currentCol < Board.Length; currentCol++)
                 {
-                    if (Board[row][currentCol] == currentCol) // find index of last show
+                    if (Board[move.row][currentCol] == currentCol) // find index of last show
                     {
                         lastShow_index = currentCol;
                     }
 
-                    else if (Board[row][currentCol] != currentPlayer && Board[row][currentCol] != (-1) * currentPlayer) // we find empty cell
+                    else if (Board[move.row][currentCol] != currentPlayer && Board[move.row][currentCol] != (-1) * currentPlayer) // we find empty cell
                     {
                         break;
                     }
 
                 }
             }
-
 
             return lastShow_index;
         }
@@ -377,18 +375,18 @@ namespace Ex02_Othelo
             return lastShow_index;
         }
 
-        public static int find_offsetPosition_sub_diagonal(int row, int col, int[][] Board, int currentPlayer)
+        public int findOffsetPositionSubDiagonal(OtheloMove move)
         {
             int lastShow_index = -1;
             int index = 1;
 
-            for (int currentCol = col; col >= 0; currentCol--)
+            for (int currentCol = move.col; move.col >= 0; currentCol--)
             {
-                if (Board[row - index][col + index] == currentPlayer)
+                if (Board[move.row - index][move.col + index] == currentPlayer)
                 {
-                    lastShow_index = col + index;
+                    lastShow_index = move.col + index;
                 }
-                else if (Board[row - index][col + index] != currentPlayer && Board[row - index][col + index] != (-1) * currentPlayer)
+                else if (Board[move.row - index][move.col + index] != currentPlayer && Board[move.row - index][move.col + index] != (-1) * currentPlayer)
                 {
                     break;
                 }
@@ -398,13 +396,13 @@ namespace Ex02_Othelo
 
             if (lastShow_index == -1)
             {
-                for (int currentCol = col; col < Board.Length; currentCol++)
+                for (int currentCol = move.col; move.col < Board.Length; currentCol++)
                 {
-                    if (Board[row + index][col - index] == currentPlayer)
+                    if (Board[move.row + index][move.col - index] == currentPlayer)
                     {
-                        lastShow_index = col - index;
+                        lastShow_index = move.col - index;
                     }
-                    else if (Board[row + index][col - index] != currentPlayer && Board[row + index][col - index] != (-1) * currentPlayer)
+                    else if (Board[move.row + index][move.col - index] != currentPlayer && Board[move.row + index][move.col - index] != (-1) * currentPlayer)
                     {
                         break;
                     }
