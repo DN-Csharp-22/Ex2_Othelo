@@ -18,28 +18,56 @@ namespace Ex02_Othelo
             int gameDifficulty = gameUI.GetDifficultyFromUser(difficulties);
 
             GameState gameState = new GameState(gameDifficulty);
-             
-            while(true)
+
+            bool isInvalidMove = false;
+
+            gameUI.DisplayBoard(gameState.Board);
+
+            while (true)
             {
-                gameUI.DisplayBoard(gameState.Board);
-
-                OtheloMove move = gameUI.GetMoveFromUser(gameState);
-
-                if (gameState.IsMoveValid(move))
-                {
-                    gameState.InsertMoveToBoard(move);
-
-                    if (gameState.IsGameFinished(out char winner))
-                    {
-                        gameUI.DisplayWinnerMessage(winner);
-                        break;
-                    }
-                }
-                else
+                if (isInvalidMove)
                 {
                     gameUI.DisplayInvalidMoveMessage();
                 }
-                Ex02.ConsoleUtils.Screen.Clear();
+
+                OtheloMove move = null;
+                bool NoMoreMovesLeft = false;
+                if (gameState.isPlayerTurn())
+                {
+                    //move = gameUI.GetMoveFromUser(gameState);
+                    move = gameState.GenerateMoveByComputer();
+                }
+                else
+                {
+                    move = gameState.GenerateMoveByComputer();
+                    NoMoreMovesLeft = move == null;
+                    isInvalidMove = false;
+                }
+
+                ValidMoves validMoves = gameState.IsMoveValid(move);
+
+                if (validMoves.RowValid || validMoves.ColumnValid || validMoves.MainDiagonalValid || validMoves.SubDiagonalValid)
+                {
+                    if (!gameState.isPlayerTurn())
+                    {
+                        Console.WriteLine(string.Format("Move from computer : [row:{0},column:{1}]", (move.row + 1).ToString(), (char)(move.column + 'A')));
+                    }
+
+                    gameState.InsertMoveToBoard(move, validMoves);
+                    gameUI.DisplayBoard(gameState.Board);
+                    isInvalidMove = false;
+                }
+                else if (gameState.isPlayerTurn())
+                {
+                    isInvalidMove = true;
+                }
+
+                if (gameState.IsGameFinished(out char winner,NoMoreMovesLeft))
+                {
+                    gameUI.DisplayWinnerMessage(winner);
+                    break;
+                }
+
             }
         }
     }
