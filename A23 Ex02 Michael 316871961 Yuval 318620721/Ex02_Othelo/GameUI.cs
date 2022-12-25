@@ -10,9 +10,11 @@ namespace Ex02_Othelo
     {
         public GameUI()
         {
+        }
+        public void CleanBoard()
+        {
             Ex02.ConsoleUtils.Screen.Clear();
         }
-
         public void DisplayBoard(int[][] boardMatrix)
         {
             for (int column = 0; column < boardMatrix.Length + 1; column++)
@@ -158,9 +160,9 @@ namespace Ex02_Othelo
             return userMove;
         }
 
-        public void DisplayInvalidMoveMessage()
+        public void DisplayInvalidMoveMessage(char currentPlayerSymbol)
         {
-            Console.WriteLine("Move is invalid, please insert another move according to Othelo rules");
+            Console.WriteLine(string.Format("player '{0}' : Move is invalid, please insert another move according to Othelo rules",currentPlayerSymbol));
         }
 
         public void DisplayWinnerMessage(char winner)

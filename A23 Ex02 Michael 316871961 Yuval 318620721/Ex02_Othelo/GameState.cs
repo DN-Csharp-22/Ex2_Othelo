@@ -13,13 +13,13 @@ namespace Ex02_Othelo
     {
         public int Difficulty { get; set; }
         public int[][] Board { get; set; }
-        private int currentPlayer { get; set; }
+        public int currentPlayer { get; set; }
 
-        private const int PlayerX = 1;
-        private const int PlayerO = -1;
-        private const int EmptyCell = 0;
-        private const char PlayerXSymbol = 'X';
-        private const char PlayerOSymbol = 'O';
+        public const int PlayerX = 1;
+        public const int PlayerO = -1;
+        public const int EmptyCell = 0;
+        public const char PlayerXSymbol = 'X';
+        public const char PlayerOSymbol = 'O';
 
         public GameState(int rowLength)
         {
@@ -133,10 +133,13 @@ namespace Ex02_Othelo
                 }
             }
 
+            
+        }
+        public void SwitchPlayers()
+        {
             currentPlayer *= -1;
         }
-
-        public bool IsGameFinished(out char winner,bool noMovesLeft)
+        public bool IsGameFinished(out char winner)
         {
             bool isFinished = false;
 
@@ -165,7 +168,7 @@ namespace Ex02_Othelo
                 }
             }
 
-            if (playersSymbolsCount[2] == 0 || noMovesLeft)
+            if (playersSymbolsCount[2] == 0)
             {
                 winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? PlayerXSymbol : PlayerOSymbol;
                 isFinished = true;
@@ -174,244 +177,10 @@ namespace Ex02_Othelo
             return isFinished;
         }
 
-        public ValidMoves IsMoveValid(OtheloMove currentMove)
-        {
-            ValidMoves validMoves = new ValidMoves();
 
-            if (Board[currentMove.row][currentMove.column] == EmptyCell)
-            {
-                validMoves.RowValid = isValidRowMove(currentMove.row, currentMove.column, Board, currentPlayer, false);
-                validMoves.ColumnValid = isValidColumnMove(currentMove.row, currentMove.column, Board, currentPlayer, true);
-                validMoves.MainDiagonalValid = isValidMainDiagonalMove(currentMove.row, currentMove.column, Board, currentPlayer, true);
-                validMoves.SubDiagonalValid = isValidSubDiagonalMove(currentMove.row, currentMove.column, Board, currentPlayer, false);
-            }
-            return validMoves;
-        }
 
-        /// <summary>
-        /// This method can be altered with AI logic
-        /// </summary>
-        public OtheloMove GenerateMoveByComputer()
-        {
-            Random rnd = new Random();
 
-            OtheloMove generatedMove = null;
 
-            bool moveFound = false;
-
-            for (int row = 0; row < Difficulty && !moveFound; row++)
-            {
-                for (int col = 0; col < Difficulty && !moveFound ; col++)
-                {
-                    switch (Board[row][col])
-                    {
-                        case EmptyCell:
-                            generatedMove = new OtheloMove(row,col);
-                            
-                            ValidMoves validMoves = IsMoveValid(generatedMove);
-
-                            if (validMoves.RowValid || validMoves.ColumnValid || validMoves.MainDiagonalValid || validMoves.SubDiagonalValid)
-                            {
-                                moveFound = true;
-                            }
-                            else
-                            {
-                                generatedMove = null;
-                            }
-                            break;
-                        case PlayerX:
-                        case PlayerO:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            return generatedMove;
-        }
-
-        public static bool isValidColumnMove(int row, int col, int[][] Board, int currentPlayer, bool isColCheck)
-        {
-            bool isMoveValid = false;
-
-            int oppositePlayerSymbolsCount = 0;
-
-            int oppositePlayer = (-1) * currentPlayer;
-
-            for (int currentRow = row - 1; currentRow >= 0; currentRow--)//Check to the left
-            {
-                if (Board[currentRow][col] == oppositePlayer)
-                {
-                    oppositePlayerSymbolsCount++;
-                }
-                else if (Board[currentRow][col] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                {
-                    isMoveValid = true;
-                    break;
-                }
-                else//Found an empty cell
-                {
-                    break;
-                }
-            }
-
-            if (!isMoveValid)
-            {
-                for (int currentRow = row + 1; currentRow < Board.Length; currentRow++)//Check to the right
-                {
-                    if (Board[currentRow][col] == oppositePlayer)
-                    {
-                        oppositePlayerSymbolsCount++;
-                    }
-                    else if (Board[currentRow][col] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                    {
-                        isMoveValid = true;
-                        break;
-                    }
-                    else//Found an empty cell
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return isMoveValid;
-        }
-        public static bool isValidRowMove(int row, int col, int[][] Board, int currentPlayer, bool isColCheck)
-        {
-            bool isMoveValid = false;
-
-            int oppositePlayerSymbolsCount = 0;
-
-            int oppositePlayer = (-1) * currentPlayer;
-
-            for (int currentCol = col - 1; currentCol >= 0; currentCol--)//Check to the left
-            {
-                if (Board[row][currentCol] == oppositePlayer)
-                {
-                    oppositePlayerSymbolsCount++;
-                }
-                else if (Board[row][currentCol] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                {
-                    isMoveValid = true;
-                    break;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (!isMoveValid)
-            {
-                for (int currentCol = col + 1; currentCol < Board.Length; currentCol++)//Check to the right
-                {
-                    if (Board[row][currentCol] == oppositePlayer)
-                    {
-                        oppositePlayerSymbolsCount++;
-                    }
-                    else if (Board[row][currentCol] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                    {
-                        isMoveValid = true;
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return isMoveValid;
-        }
-        public static bool isValidMainDiagonalMove(int row, int col, int[][] Board, int currentPlayer, bool isMainDiagonalCheck)
-        {
-            bool isMoveValid = false;
-
-            int oppositePlayerSymbolsCount = 0;
-
-            int oppositePlayer = (-1) * currentPlayer;
-
-            int index = 1;
-
-            for (int currentCol = col; currentCol > 0 && col + index < Board.Length && row + index < Board.Length; currentCol--) // main diagonal
-            {
-                if (Board[row + index][col + index] == oppositePlayer)
-                {
-                    oppositePlayerSymbolsCount++;
-                }
-                else if (Board[row + index][col + index] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                {
-                    isMoveValid = true;
-                    break;
-                }
-                index++;
-            }
-
-            if (!isMoveValid)
-            {
-                index = 1;
-
-                for (int currentCol = col; currentCol < Board.Length && col - index > 0 && row - index > 0; currentCol++) // main diagonal
-                {
-                    if (Board[row - index][col - index] == oppositePlayer)
-                    {
-                        oppositePlayerSymbolsCount++;
-                    }
-                    else if (Board[row - index][col - index] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                    {
-                        isMoveValid = true;
-                        break;
-                    }
-                    index++;
-                }
-            }
-
-            return isMoveValid;
-        }
-        public bool isValidSubDiagonalMove(int row, int col, int[][] Board, int currentPlayer, bool isMainDiagonalCheck)
-        {
-            bool isMoveValid = false;
-
-            int oppositePlayerSymbolsCount = 0;
-
-            int oppositePlayer = (-1) * currentPlayer;
-
-            int index = 1;
-
-            for (int currentCol = col; currentCol > 0 && col + index < Board.Length && row - index >= 0; currentCol--) // main diagonal
-            {
-                if (Board[row - index][col + index] == oppositePlayer)
-                {
-                    oppositePlayerSymbolsCount++;
-                }
-                else if (Board[row - index][col + index] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                {
-                    isMoveValid = true;
-                    break;
-                }
-                index++;
-            }
-
-            if (!isMoveValid)
-            {
-                for (index = 1; index < Board.Length && col - index >= 0 && row + index < Board.Length; index++) // main diagonal
-                {
-                    if (Board[row + index][col - index] == oppositePlayer)
-                    {
-                        oppositePlayerSymbolsCount++;
-                    }
-                    else if (Board[row + index][col - index] == currentPlayer && oppositePlayerSymbolsCount > 0)
-                    {
-                        isMoveValid = true;
-                        break;
-                    }
-                }
-            }
-
-            return isMoveValid;
-        }
 
         public int findOffsetPositionRow(OtheloMove move)
         {
@@ -483,7 +252,6 @@ namespace Ex02_Othelo
 
             return lastShow_index;
         }
-
         public int findOffsetPositionMainDiagonal(OtheloMove move)
         {
             int lastShow_index = -1;
@@ -525,7 +293,6 @@ namespace Ex02_Othelo
 
             return lastShow_index;
         }
-
         public int findOffsetPositionSubDiagonal(OtheloMove move)
         {
             int lastShow_index = -1;

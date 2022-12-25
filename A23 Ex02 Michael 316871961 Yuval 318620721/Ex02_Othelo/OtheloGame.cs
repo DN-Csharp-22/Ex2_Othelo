@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,56 +20,48 @@ namespace Ex02_Othelo
 
             GameState gameState = new GameState(gameDifficulty);
 
-            bool isInvalidMove = false;
-
             gameUI.DisplayBoard(gameState.Board);
 
-            while (true)
+            char winner = ' ';
+
+            while (!OtheloMove.isGameFinished(gameState, out winner))
             {
-                if (isInvalidMove)
-                {
-                    gameUI.DisplayInvalidMoveMessage();
-                }
+                OtheloMove move = GetMove(gameState, gameUI);
 
-                OtheloMove move = null;
-                bool NoMoreMovesLeft = false;
-                if (gameState.isPlayerTurn())
-                {
-                    //move = gameUI.GetMoveFromUser(gameState);
-                    move = gameState.GenerateMoveByComputer();
-                }
-                else
-                {
-                    move = gameState.GenerateMoveByComputer();
-                    NoMoreMovesLeft = move == null;
-                    isInvalidMove = false;
-                }
+                ValidMoves validMoves = OtheloMove.IsMoveValid(move, gameState.Board, gameState.currentPlayer);
 
-                ValidMoves validMoves = gameState.IsMoveValid(move);
+                bool isValidMove = validMoves.RowValid || validMoves.ColumnValid || validMoves.MainDiagonalValid || validMoves.SubDiagonalValid;
 
-                if (validMoves.RowValid || validMoves.ColumnValid || validMoves.MainDiagonalValid || validMoves.SubDiagonalValid)
+                if (isValidMove)
                 {
-                    if (!gameState.isPlayerTurn())
-                    {
-                        Console.WriteLine(string.Format("Move from computer : [row:{0},column:{1}]", (move.row + 1).ToString(), (char)(move.column + 'A')));
-                    }
-
                     gameState.InsertMoveToBoard(move, validMoves);
+                    gameState.SwitchPlayers();
+                    gameUI.CleanBoard();
                     gameUI.DisplayBoard(gameState.Board);
-                    isInvalidMove = false;
                 }
-                else if (gameState.isPlayerTurn())
+                else if(gameState.isPlayerTurn())
                 {
-                    isInvalidMove = true;
+                    gameUI.DisplayInvalidMoveMessage(gameState.GetCurrentPlayerSymbol());
                 }
-
-                if (gameState.IsGameFinished(out char winner,NoMoreMovesLeft))
-                {
-                    gameUI.DisplayWinnerMessage(winner);
-                    break;
-                }
-
             }
+            gameUI.DisplayWinnerMessage(winner);
+
+        }
+
+        private OtheloMove GetMove(GameState gameState, GameUI gameUI)
+        {
+            OtheloMove move = null;
+
+            if (gameState.isPlayerTurn())
+            {
+                move = gameUI.GetMoveFromUser(gameState);
+            }
+            else
+            {
+                move = OtheloMove.GenerateMove(gameState.Difficulty);
+            }
+
+            return move;
         }
     }
 }
