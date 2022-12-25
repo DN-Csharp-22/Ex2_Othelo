@@ -5,7 +5,9 @@ namespace Ex02_Othelo
     internal class OtheloMove
     {
         public int row { get; set; }
+
         public int column { get; set; }
+
         public OtheloMove(int row, int col)
         {
             this.row = row;
@@ -28,7 +30,7 @@ namespace Ex02_Othelo
                 {
                     switch (gameState.board[row][col])
                     {
-                        case GameState.emptyCell:
+                        case GameState.k_EmptyCell:
                             playersSymbolsCount[2]++;
 
                             OtheloMove generatedMove = new OtheloMove(row, col);
@@ -43,11 +45,12 @@ namespace Ex02_Othelo
                             {
                                 generatedMove = null;
                             }
+
                             break;
-                        case GameState.player_X:
+                        case GameState.k_Player_X:
                             playersSymbolsCount[0]++;
                             break;
-                        case GameState.player_O:
+                        case GameState.k_Player_O:
                             playersSymbolsCount[1]++;
                             break;
                         default:
@@ -58,7 +61,7 @@ namespace Ex02_Othelo
 
             if (playersSymbolsCount[2] == 0 || gameFinished)
             {
-                winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? GameState.playerXSymbol : GameState.playerOSymbol;
+                winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? GameState.k_PlayerXSymbol : GameState.k_PlayerOSymbol;
                 gameFinished = true;
             }
 
@@ -69,13 +72,14 @@ namespace Ex02_Othelo
         {
             ValidMoves validMoves = new ValidMoves();
 
-            if (board[currentMove.row][currentMove.column] == GameState.emptyCell)
+            if (board[currentMove.row][currentMove.column] == GameState.k_EmptyCell)
             {
-                validMoves.RowValid = isValidRowMove(currentMove.row, currentMove.column, board, currentPlayer, false);
-                validMoves.ColumnValid = isValidColumnMove(currentMove.row, currentMove.column, board, currentPlayer, true);
-                validMoves.MainDiagonalValid = isValidMainDiagonalMove(currentMove.row, currentMove.column, board, currentPlayer, true);
-                validMoves.SubDiagonalValid = isValidSubDiagonalMove(currentMove.row, currentMove.column, board, currentPlayer, false);
+                validMoves.RowValid = IsValidRowMove(currentMove.row, currentMove.column, board, currentPlayer);
+                validMoves.ColumnValid = IsValidColumnMove(currentMove.row, currentMove.column, board, currentPlayer);
+                validMoves.MainDiagonalValid = IsValidMainDiagonalMove(currentMove.row, currentMove.column, board, currentPlayer);
+                validMoves.SubDiagonalValid = IsValidSubDiagonalMove(currentMove.row, currentMove.column, board, currentPlayer);
             }
+
             return validMoves;
         }
 
@@ -88,7 +92,7 @@ namespace Ex02_Othelo
             return generatedMove;
         }
 
-        private static bool isValidColumnMove(int row, int col, int[][] board, int currentPlayer, bool isColCheck)
+        private static bool IsValidColumnMove(int row, int col, int[][] board, int currentPlayer)
         {
             bool isMoveValid = false;
 
@@ -96,7 +100,7 @@ namespace Ex02_Othelo
 
             int oppositePlayer = (-1) * currentPlayer;
 
-            for (int currentRow = row - 1; currentRow >= 0; currentRow--)//Check to the left
+            for (int currentRow = row - 1; currentRow >= 0; currentRow--)
             {
                 if (board[currentRow][col] == oppositePlayer)
                 {
@@ -107,7 +111,7 @@ namespace Ex02_Othelo
                     isMoveValid = true;
                     break;
                 }
-                else//Found an empty cell
+                else
                 {
                     break;
                 }
@@ -115,7 +119,7 @@ namespace Ex02_Othelo
 
             if (!isMoveValid)
             {
-                for (int currentRow = row + 1; currentRow < board.Length; currentRow++)//Check to the right
+                for (int currentRow = row + 1; currentRow < board.Length; currentRow++)
                 {
                     if (board[currentRow][col] == oppositePlayer)
                     {
@@ -126,7 +130,7 @@ namespace Ex02_Othelo
                         isMoveValid = true;
                         break;
                     }
-                    else//Found an empty cell
+                    else
                     {
                         break;
                     }
@@ -135,7 +139,8 @@ namespace Ex02_Othelo
 
             return isMoveValid;
         }
-        private static bool isValidRowMove(int row, int col, int[][] board, int currentPlayer, bool isColCheck)
+
+        private static bool IsValidRowMove(int row, int col, int[][] board, int currentPlayer)
         {
             bool isMoveValid = false;
 
@@ -143,7 +148,7 @@ namespace Ex02_Othelo
 
             int oppositePlayer = (-1) * currentPlayer;
 
-            for (int currentCol = col - 1; currentCol >= 0; currentCol--)//Check to the left
+            for (int currentCol = col - 1; currentCol >= 0; currentCol--)
             {
                 if (board[row][currentCol] == oppositePlayer)
                 {
@@ -162,7 +167,7 @@ namespace Ex02_Othelo
 
             if (!isMoveValid)
             {
-                for (int currentCol = col + 1; currentCol < board.Length; currentCol++)//Check to the right
+                for (int currentCol = col + 1; currentCol < board.Length; currentCol++)
                 {
                     if (board[row][currentCol] == oppositePlayer)
                     {
@@ -182,7 +187,8 @@ namespace Ex02_Othelo
 
             return isMoveValid;
         }
-        private static bool isValidMainDiagonalMove(int row, int col, int[][] board, int currentPlayer, bool isMainDiagonalCheck)
+
+        private static bool IsValidMainDiagonalMove(int row, int col, int[][] board, int currentPlayer)
         {
             bool isMoveValid = false;
 
@@ -192,7 +198,7 @@ namespace Ex02_Othelo
 
             int index = 1;
 
-            for (int currentCol = col; currentCol > 0 && col + index < board.Length && row + index < board.Length; currentCol--) // main diagonal
+            for (int currentCol = col; currentCol > 0 && col + index < board.Length && row + index < board.Length; currentCol--)
             {
                 if (board[row + index][col + index] == oppositePlayer)
                 {
@@ -203,6 +209,7 @@ namespace Ex02_Othelo
                     isMoveValid = true;
                     break;
                 }
+
                 index++;
             }
 
@@ -210,7 +217,7 @@ namespace Ex02_Othelo
             {
                 index = 1;
 
-                for (int currentCol = col; currentCol < board.Length && col - index >= 0 && row - index >= 0; currentCol++) // main diagonal
+                for (int currentCol = col; currentCol < board.Length && col - index >= 0 && row - index >= 0; currentCol++)
                 {
                     if (board[row - index][col - index] == oppositePlayer)
                     {
@@ -221,13 +228,15 @@ namespace Ex02_Othelo
                         isMoveValid = true;
                         break;
                     }
+
                     index++;
                 }
             }
 
             return isMoveValid;
         }
-        private static bool isValidSubDiagonalMove(int row, int col, int[][] board, int currentPlayer, bool isMainDiagonalCheck)
+
+        private static bool IsValidSubDiagonalMove(int row, int col, int[][] board, int currentPlayer)
         {
             bool isMoveValid = false;
 
@@ -237,7 +246,7 @@ namespace Ex02_Othelo
 
             int index = 1;
 
-            for (int currentCol = col; currentCol > 0 && col + index < board.Length && row - index >= 0; currentCol--) // main diagonal
+            for (int currentCol = col; currentCol > 0 && col + index < board.Length && row - index >= 0; currentCol--)
             {
                 if (board[row - index][col + index] == oppositePlayer)
                 {
@@ -248,12 +257,13 @@ namespace Ex02_Othelo
                     isMoveValid = true;
                     break;
                 }
+
                 index++;
             }
 
             if (!isMoveValid)
             {
-                for (index = 1; index < board.Length && col - index >= 0 && row + index < board.Length; index++) // main diagonal
+                for (index = 1; index < board.Length && col - index >= 0 && row + index < board.Length; index++)
                 {
                     if (board[row + index][col - index] == oppositePlayer)
                     {
@@ -269,6 +279,5 @@ namespace Ex02_Othelo
 
             return isMoveValid;
         }
-
     }
 }

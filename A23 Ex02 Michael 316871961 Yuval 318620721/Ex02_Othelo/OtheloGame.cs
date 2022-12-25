@@ -10,7 +10,6 @@ namespace Ex02_Othelo
     internal class OtheloGame
     {
         private readonly int[] difficulties = { 6, 8 };
-        public OtheloGame() { }
 
         public void StartGame()
         {
@@ -44,8 +43,8 @@ namespace Ex02_Othelo
                     gameUI.DisplayInvalidMoveMessage(gameState.GetCurrentPlayerSymbol());
                 }
             }
-            gameUI.DisplayWinnerMessage(winner);
 
+            gameUI.DisplayWinnerMessage(winner);
         }
 
         private OtheloMove GetMove(GameState gameState, GameUI gameUI)

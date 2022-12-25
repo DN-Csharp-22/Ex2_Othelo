@@ -8,13 +8,11 @@ namespace Ex02_Othelo
 {
     internal class GameUI
     {
-        public GameUI()
-        {
-        }
         public void CleanBoard()
         {
             Ex02.ConsoleUtils.Screen.Clear();
         }
+
         public void DisplayBoard(int[][] boardMatrix)
         {
             for (int column = 0; column < boardMatrix.Length + 1; column++)
@@ -22,7 +20,6 @@ namespace Ex02_Othelo
                 if (column == 0)
                 {
                     Console.Write("   ");
-
                 }
                 else
                 {
@@ -34,7 +31,7 @@ namespace Ex02_Othelo
 
             for (int row = 0; row < boardMatrix.Length; row++)
             {
-                printLineSeperator(boardMatrix.Length);
+                PrintLineSeperator(boardMatrix.Length);
 
                 for (int col = 0; col < boardMatrix.Length + 1; col++)
                 {
@@ -46,7 +43,6 @@ namespace Ex02_Othelo
                     {
                         char currentCellSymbol = ' ';
 
-                        //TODO do a switch case to 
                         if (boardMatrix[row][col - 1] != 0)
                         {
                             switch (boardMatrix[row][col - 1])
@@ -61,30 +57,33 @@ namespace Ex02_Othelo
                                     break;
                             }
                         }
+
                         Console.Write("| {0} ", currentCellSymbol);
                     }
                 }
+
                 Console.Write("|\n");
             }
-            printLineSeperator(boardMatrix.Length);
+
+            PrintLineSeperator(boardMatrix.Length);
         }
 
-        public void printLineSeperator(int lineLength)
+        public void PrintLineSeperator(int lineLength)
         {
             for (int col = 0; col < lineLength; col++)
             {
                 if (col == 0)
                 {
                     Console.Write("   ");
-
                 }
+
                 Console.Write("====");
             }
-            Console.WriteLine();
 
+            Console.WriteLine();
         }
 
-        public int GetDifficultyFromUser(int[] availableDifficulties) 
+        public int GetDifficultyFromUser(int[] availableDifficulties)
         {
             bool inputIsValid = false;
 
@@ -170,6 +169,7 @@ namespace Ex02_Othelo
             Console.WriteLine("{0} is the winner!!!", winner);
             Console.ReadKey();
         }
+
         public string GetUserInput()
         {
             string userInput = Console.ReadLine();
