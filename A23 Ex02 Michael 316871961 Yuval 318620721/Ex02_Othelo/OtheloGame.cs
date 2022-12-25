@@ -20,7 +20,7 @@ namespace Ex02_Othelo
 
             GameState gameState = new GameState(gameDifficulty);
 
-            gameUI.DisplayBoard(gameState.Board);
+            gameUI.DisplayBoard(gameState.board);
 
             char winner = ' ';
 
@@ -28,7 +28,7 @@ namespace Ex02_Othelo
             {
                 OtheloMove move = GetMove(gameState, gameUI);
 
-                ValidMoves validMoves = OtheloMove.IsMoveValid(move, gameState.Board, gameState.currentPlayer);
+                ValidMoves validMoves = OtheloMove.IsMoveValid(move, gameState.board, gameState.currentPlayer);
 
                 bool isValidMove = validMoves.RowValid || validMoves.ColumnValid || validMoves.MainDiagonalValid || validMoves.SubDiagonalValid;
 
@@ -37,9 +37,9 @@ namespace Ex02_Othelo
                     gameState.InsertMoveToBoard(move, validMoves);
                     gameState.SwitchPlayers();
                     gameUI.CleanBoard();
-                    gameUI.DisplayBoard(gameState.Board);
+                    gameUI.DisplayBoard(gameState.board);
                 }
-                else if(gameState.isPlayerTurn())
+                else if (gameState.isPlayerTurn())
                 {
                     gameUI.DisplayInvalidMoveMessage(gameState.GetCurrentPlayerSymbol());
                 }
@@ -58,7 +58,7 @@ namespace Ex02_Othelo
             }
             else
             {
-                move = OtheloMove.GenerateMove(gameState.Difficulty);
+                move = OtheloMove.GenerateMove(gameState.difficulty);
             }
 
             return move;

@@ -84,7 +84,7 @@ namespace Ex02_Othelo
 
         }
 
-        public int GetDifficultyFromUser(int[] availableDifficulties)
+        public int GetDifficultyFromUser(int[] availableDifficulties) 
         {
             bool inputIsValid = false;
 
@@ -123,11 +123,11 @@ namespace Ex02_Othelo
 
         public OtheloMove GetMoveFromUser(GameState gameState)
         {
-            Console.WriteLine("Current player is : {0}",gameState.GetCurrentPlayerSymbol());
+            Console.WriteLine("Current player is : {0}", gameState.GetCurrentPlayerSymbol());
             Console.WriteLine("Please insert your move");
 
             bool inputIsValid = false;
-            
+
             OtheloMove userMove = null;
 
             while (!inputIsValid)
@@ -139,14 +139,14 @@ namespace Ex02_Othelo
                     char firstChar = userInput[0];
                     char secondChar = userInput[1];
 
-                    if (firstChar >= '1' && firstChar <= ('1' + gameState.Difficulty) && secondChar >= 'a' && secondChar <= ('a' + gameState.Difficulty))
+                    if (firstChar >= '1' && firstChar <= ('1' + gameState.difficulty) && secondChar >= 'a' && secondChar <= ('a' + gameState.difficulty))
                     {
-                        userMove = new OtheloMove(firstChar - '1',secondChar - 'a');
+                        userMove = new OtheloMove(firstChar - '1', secondChar - 'a');
                         inputIsValid = true;
                     }
-                    else if (secondChar >= '1' && secondChar <= ('1' + gameState.Difficulty) && firstChar >= 'a' && firstChar <= ('a' + gameState.Difficulty))
+                    else if (secondChar >= '1' && secondChar <= ('1' + gameState.difficulty) && firstChar >= 'a' && firstChar <= ('a' + gameState.difficulty))
                     {
-                        userMove = new OtheloMove(secondChar - '1',firstChar - 'a');
+                        userMove = new OtheloMove(secondChar - '1', firstChar - 'a');
                         inputIsValid = true;
                     }
                 }
@@ -162,7 +162,7 @@ namespace Ex02_Othelo
 
         public void DisplayInvalidMoveMessage(char currentPlayerSymbol)
         {
-            Console.WriteLine(string.Format("player '{0}' : Move is invalid, please insert another move according to Othelo rules",currentPlayerSymbol));
+            Console.WriteLine(string.Format("player '{0}' : Move is invalid, please insert another move according to Othelo rules", currentPlayerSymbol));
         }
 
         public void DisplayWinnerMessage(char winner)

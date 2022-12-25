@@ -11,38 +11,38 @@ namespace Ex02_Othelo
 {
     internal class GameState
     {
-        public int Difficulty { get; set; }
-        public int[][] Board { get; set; }
+        public int difficulty { get; set; }
+        public int[][] board { get; set; }
         public int currentPlayer { get; set; }
 
-        public const int PlayerX = 1;
-        public const int PlayerO = -1;
-        public const int EmptyCell = 0;
-        public const char PlayerXSymbol = 'X';
-        public const char PlayerOSymbol = 'O';
+        public const int player_X = 1;
+        public const int player_O = -1;
+        public const int emptyCell = 0;
+        public const char playerXSymbol = 'X';
+        public const char playerOSymbol = 'O';
 
         public GameState(int rowLength)
         {
-            this.Difficulty = rowLength;
-            this.Board = new int[rowLength][];
+            this.difficulty = rowLength;
+            this.board = new int[rowLength][];
             this.currentPlayer = 1;
 
-            for (int rowNumber = 0; rowNumber < this.Board.Length; rowNumber++)
+            for (int rowNumber = 0; rowNumber < this.board.Length; rowNumber++)
             {
-                this.Board[rowNumber] = new int[rowLength];
+                this.board[rowNumber] = new int[rowLength];
             }
 
             int middleCell = (rowLength / 2) - 1;
 
-            this.Board[middleCell][middleCell] = -1;
-            this.Board[middleCell][middleCell + 1] = 1;
-            this.Board[middleCell + 1][middleCell] = 1;
-            this.Board[middleCell + 1][middleCell + 1] = -1;
+            this.board[middleCell][middleCell] = -1;
+            this.board[middleCell][middleCell + 1] = 1;
+            this.board[middleCell + 1][middleCell] = 1;
+            this.board[middleCell + 1][middleCell + 1] = -1;
         }
 
         public char GetCurrentPlayerSymbol()
         {
-            return this.currentPlayer == 1 ? PlayerXSymbol : PlayerOSymbol;
+            return this.currentPlayer == 1 ? playerXSymbol : playerOSymbol;
         }
 
         public bool isPlayerTurn()
@@ -57,109 +57,109 @@ namespace Ex02_Othelo
             if (validMoves.RowValid)
             {
                 index = 0;
-                int row_indexHolder = findOffsetPositionRow(move);
-                if (row_indexHolder != -1) // רצה על טווח שורות בתכלס משבצת עמודות 
+                int rowIndexHolder = findOffsetPositionRow(move);
+                if (rowIndexHolder != -1) // רצה על טווח שורות בתכלס משבצת עמודות 
                 {
-                    for (int i = move.column; i < row_indexHolder; i++)
+                    for (int i = move.column; i < rowIndexHolder; i++)
                     {
-                        Board[move.row][i] = currentPlayer;
+                        board[move.row][i] = currentPlayer;
                     }
 
-                    for (int i = move.column; i > row_indexHolder; i--)
+                    for (int i = move.column; i > rowIndexHolder; i--)
                     {
-                        Board[move.row][i] = currentPlayer;
+                        board[move.row][i] = currentPlayer;
                     }
                 }
 
             }
 
-            if (validMoves.ColumnValid)
+            if (validMoves.ColumnValid) 
             {
                 index = 0;
-                int column_indexHolder = findOffsetPositionColunm(move);
+                int columnIndexHolder = findOffsetPositionColunm(move);
                 //======> רצה על עמודה מלמעלה למטה
-                if (column_indexHolder != -1) //רצה על טווח עמודות (בתכלס משבץ שורה)  
+                if (columnIndexHolder != -1) //רצה על טווח עמודות (בתכלס משבץ שורה)  
                 {
-                    for (int i = move.row; i < column_indexHolder; i++)
+                    for (int i = move.row; i < columnIndexHolder; i++)
                     {
-                        Board[i][move.column] = currentPlayer;
+                        board[i][move.column] = currentPlayer;
                     }
 
-                    for (int i = move.row; i > column_indexHolder; i--)
+                    for (int i = move.row; i > columnIndexHolder; i--)
                     {
-                        Board[i][move.column] = currentPlayer;
+                        board[i][move.column] = currentPlayer;
                     }
                 }
             }
 
-            if (validMoves.MainDiagonalValid)
+            if (validMoves.MainDiagonalValid) 
             {
                 index = 0;
-                int main_dianagonalIndexHolder = findOffsetPositionMainDiagonal(move);
-                if (main_dianagonalIndexHolder != -1)
+                int mainDianagonalIndexHolder = findOffsetPositionMainDiagonal(move);
+                if (mainDianagonalIndexHolder != -1)
                 {
-                    for (int j = move.column; j < main_dianagonalIndexHolder; j++)
+                    for (int j = move.column; j < mainDianagonalIndexHolder; j++)
                     {
-                        Board[move.row + index][move.column + index] = currentPlayer;
+                        board[move.row + index][move.column + index] = currentPlayer;
                         index++;
                     }
 
-                    for (int j = main_dianagonalIndexHolder + 1; j <= move.column; j++)
+                    for (int j = mainDianagonalIndexHolder + 1; j <= move.column; j++)
                     {
-                        Board[move.row - index][move.column - index] = currentPlayer;
+                        board[move.row - index][move.column - index] = currentPlayer;
                         index++;
 
                     }
                 }
             }
 
-            if (validMoves.SubDiagonalValid)
+            if (validMoves.SubDiagonalValid) 
             {
                 index = 0;
-                int sub_dianagonalIndexHolder = findOffsetPositionSubDiagonal(move);
-                if (sub_dianagonalIndexHolder != -1)
+                int subDianagonalIndexHolder = findOffsetPositionSubDiagonal(move);
+                if (subDianagonalIndexHolder != -1)
                 {
-                    for (int j = sub_dianagonalIndexHolder + 1; j <= move.column; j++)
+                    for (int j = subDianagonalIndexHolder + 1; j <= move.column; j++)
                     {
-                        Board[move.row + index][move.column - index] = currentPlayer;
+                        board[move.row + index][move.column - index] = currentPlayer;
                         index++;
                     }
                     index = 0;
-                    for (int j = move.column; j < sub_dianagonalIndexHolder; j++)
+                    for (int j = move.column; j < subDianagonalIndexHolder; j++)
                     {
-                        Board[move.row - index][move.column + index] = currentPlayer;
+                        board[move.row - index][move.column + index] = currentPlayer;
                         index++;
                     }
                 }
             }
 
-            
+
         }
         public void SwitchPlayers()
         {
             currentPlayer *= -1;
         }
-        public bool IsGameFinished(out char winner)
+        public bool IsGameFinished(out char o_winner)
         {
             bool isFinished = false;
 
             int[] playersSymbolsCount = new int[3];
 
-            winner = ' ';
+            o_winner = ' ';
 
-            for (int row = 0; row < Difficulty; row++)
+            for (int row = 0; row < difficulty; row++)
             {
-                for (int col = 0; col < Difficulty; col++)
+                for (int col = 0; col < difficulty; col++)
                 {
-                    switch (Board[row][col])
+                    switch (board[row][col])
                     {
-                        case EmptyCell:
+                        case emptyCell:
                             playersSymbolsCount[2]++;
                             break;
-                        case PlayerX:
+                        case player_X:
                             playersSymbolsCount[0]++;
                             break;
-                        case PlayerO:
+                        case player_O:
                             playersSymbolsCount[1]++;
                             break;
                         default:
@@ -170,7 +170,7 @@ namespace Ex02_Othelo
 
             if (playersSymbolsCount[2] == 0)
             {
-                winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? PlayerXSymbol : PlayerOSymbol;
+                o_winner = playersSymbolsCount[0] > playersSymbolsCount[1] ? playerXSymbol : playerOSymbol;
                 isFinished = true;
             }
 
@@ -181,107 +181,106 @@ namespace Ex02_Othelo
 
 
 
-
-        public int findOffsetPositionRow(OtheloMove move)
+        public int findOffsetPositionRow(OtheloMove move)   
         {
-            int lastShow_index = -1;
+            int lastShowIndex = -1; 
 
             for (int currentCol = move.column - 1; currentCol >= 0; currentCol--)//Check to the left
             {
-                if (Board[move.row][currentCol] == currentPlayer) // find index of last show
+                if (board[move.row][currentCol] == currentPlayer) // find index of last show
                 {
-                    lastShow_index = currentCol;
+                    lastShowIndex = currentCol;
                     break;
                 }
-                else if (Board[move.row][currentCol] == EmptyCell) // we find empty cell
+                else if (board[move.row][currentCol] == emptyCell) // we find empty cell
                 {
                     break;
                 }
             }
 
-            if (lastShow_index == -1)
+            if (lastShowIndex == -1)
             {
-                for (int currentCol = move.column + 1; currentCol < Board.Length; currentCol++)
+                for (int currentCol = move.column + 1; currentCol < board.Length; currentCol++)
                 {
-                    if (Board[move.row][currentCol] == currentPlayer) // find index of last show
+                    if (board[move.row][currentCol] == currentPlayer) // find index of last show
                     {
-                        lastShow_index = currentCol;
+                        lastShowIndex = currentCol;
                         break;
                     }
-                    else if (Board[move.row][currentCol] == EmptyCell) // we find empty cell
+                    else if (board[move.row][currentCol] == emptyCell) // we find empty cell
                     {
                         break;
                     }
                 }
             }
 
-            return lastShow_index;
+            return lastShowIndex;
         }
-        public int findOffsetPositionColunm(OtheloMove move)
+        public int findOffsetPositionColunm(OtheloMove move)   
         {
-            int lastShow_index = -1;
+            int lastShowIndex = -1;
 
             for (int currentRow = move.row - 1; currentRow >= 0; currentRow--)//Check to the left
             {
-                if (Board[currentRow][move.column] == currentPlayer) // find index of last show
+                if (board[currentRow][move.column] == currentPlayer) // find index of last show
                 {
-                    lastShow_index = currentRow;
+                    lastShowIndex = currentRow;
                     break;
                 }
-                else if (Board[currentRow][move.column] == EmptyCell) // we find empty cell
+                else if (board[currentRow][move.column] == emptyCell) // we find empty cell
                 {
                     break;
                 }
             }
 
-            if (lastShow_index == -1)
+            if (lastShowIndex == -1)
             {
-                for (int currentRow = move.row + 1; currentRow < Board.Length; currentRow++)
+                for (int currentRow = move.row + 1; currentRow < board.Length; currentRow++)
                 {
-                    if (Board[currentRow][move.column] == currentPlayer) // find index of last show
+                    if (board[currentRow][move.column] == currentPlayer) // find index of last show
                     {
-                        lastShow_index = currentRow;
+                        lastShowIndex = currentRow;
                         break;
                     }
-                    else if (Board[currentRow][move.column] == EmptyCell) // we find empty cell
+                    else if (board[currentRow][move.column] == emptyCell) // we find empty cell
                     {
                         break;
                     }
                 }
             }
 
-            return lastShow_index;
+            return lastShowIndex;
         }
-        public int findOffsetPositionMainDiagonal(OtheloMove move)
+        public int findOffsetPositionMainDiagonal(OtheloMove move)     
         {
-            int lastShow_index = -1;
+            int lastShowIndex = -1;
             int index = 1;
 
             for (int currentCol = move.column; move.row - index > 0 && currentCol > 0; currentCol--) // main diagonal
             {
-                if (Board[move.row - index][move.column - index] == currentPlayer)
+                if (board[move.row - index][move.column - index] == currentPlayer)
                 {
-                    lastShow_index = move.column - index;
+                    lastShowIndex = move.column - index;
                     break;
                 }
-                else if (Board[move.row - index][move.column - index] != currentPlayer && Board[move.row - index][move.column - index] != (-1) * currentPlayer) // we find empty cell
+                else if (board[move.row - index][move.column - index] != currentPlayer && board[move.row - index][move.column - index] != (-1) * currentPlayer) // we find empty cell
                 {
                     break;
                 }
                 index++;
             }
 
-            if (lastShow_index == -1)
+            if (lastShowIndex == -1)
             {
                 index = 1;
-                for (int currentCol = move.column; currentCol < Board.Length - 1; currentCol++) // main diagonal
+                for (int currentCol = move.column; currentCol < board.Length - 1; currentCol++) // main diagonal
                 {
-                    if (Board[move.row + index][move.column + index] == currentPlayer)
+                    if (board[move.row + index][move.column + index] == currentPlayer)
                     {
-                        lastShow_index = move.column + index;
+                        lastShowIndex = move.column + index;
                         break;
                     }
-                    else if (Board[move.row + index][move.column + index] != currentPlayer && Board[move.row + index][move.column + index] != (-1) * currentPlayer) // we find empty cell
+                    else if (board[move.row + index][move.column + index] != currentPlayer && board[move.row + index][move.column + index] != (-1) * currentPlayer) // we find empty cell
                     {
                         break;
                     }
@@ -291,21 +290,21 @@ namespace Ex02_Othelo
 
             }
 
-            return lastShow_index;
+            return lastShowIndex;
         }
-        public int findOffsetPositionSubDiagonal(OtheloMove move)
+        public int findOffsetPositionSubDiagonal(OtheloMove move)  
         {
-            int lastShow_index = -1;
+            int lastShowIndex = -1;
             int index = 1;
 
-            for (int currentCol = move.column; move.row - index > 0 && move.column + index < Difficulty; currentCol--)
+            for (int currentCol = move.column; move.row - index > 0 && move.column + index < difficulty; currentCol--)
             {
-                if (Board[move.row - index][move.column + index] == currentPlayer)
+                if (board[move.row - index][move.column + index] == currentPlayer)
                 {
-                    lastShow_index = move.column + index;
+                    lastShowIndex = move.column + index;
                     break;
                 }
-                else if (Board[move.row - index][move.column + index] != currentPlayer && Board[move.row - index][move.column + index] != (-1) * currentPlayer)
+                else if (board[move.row - index][move.column + index] != currentPlayer && board[move.row - index][move.column + index] != (-1) * currentPlayer)
                 {
                     break;
                 }
@@ -313,18 +312,18 @@ namespace Ex02_Othelo
                 index++;
             }
 
-            if (lastShow_index == -1)
+            if (lastShowIndex == -1)
             {
                 index = 1;
 
-                for (int currentCol = move.column; move.column < Board.Length; currentCol++)
+                for (int currentCol = move.column; move.column < board.Length; currentCol++)
                 {
-                    if (Board[move.row + index][move.column - index] == currentPlayer)
+                    if (board[move.row + index][move.column - index] == currentPlayer)
                     {
-                        lastShow_index = move.column - index;
+                        lastShowIndex = move.column - index;
                         break;
                     }
-                    else if (Board[move.row + index][move.column - index] != currentPlayer && Board[move.row + index][move.column - index] != (-1) * currentPlayer)
+                    else if (board[move.row + index][move.column - index] != currentPlayer && board[move.row + index][move.column - index] != (-1) * currentPlayer)
                     {
                         break;
                     }
@@ -333,7 +332,7 @@ namespace Ex02_Othelo
                 }
             }
 
-            return lastShow_index;
+            return lastShowIndex;
         }
     }
 }
